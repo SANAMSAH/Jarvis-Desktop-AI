@@ -1,0 +1,43 @@
+# Visual Studio
+.vs/
+*.VC.db
+*.VC.opendb
+*.user
+*.suo
+
+# Build
+out/
+build/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+compile_commands.json
+
+# Qt
+*.autosave
+*.pro.user
+*.qmake.stash
+
+# Qt Runtime
+platforms/
+styles/
+translations/
+
+# Debug
+Debug/
+Release/
+x64/
+x86/
+
+# Logs
+*.log
+
+# Temporary
+*.tmp
+*.bak
+
+# OS
+Thumbs.db
+.DS_Store
