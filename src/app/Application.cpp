@@ -2,9 +2,12 @@
 
 #include "MainWindow.h"
 
-Application::Application() = default;
+Application::Application(QObject* parent)
+    : QObject(parent)
 
+{
 
+}
 Application::~Application()
 {
     delete m_mainWindow;
@@ -12,8 +15,11 @@ Application::~Application()
 
 bool Application::Initialize()
 {
-    m_mainWindow = new MainWindow();
+    m_aiManager = new AIManager(this);
+    m_aiManager->Initialize();
 
+
+    m_mainWindow = new MainWindow();
     m_mainWindow->show();
 
     return true;

@@ -50,7 +50,11 @@ qt_add_executable(Jarvis
 
     src/ui/pages/chat/ChatPage.cpp
     src/ui/pages/chat/ChatPage.h
-    
+
+    src/core/AIManager.cpp
+    src/core/AIManager.h
+    src/data/ConversationManager.cpp
+    src/data/ConversationManager.h
 )
 
 # -------------------------------
