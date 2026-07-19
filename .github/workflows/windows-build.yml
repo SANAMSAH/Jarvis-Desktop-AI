@@ -24,6 +24,7 @@ jobs:
           arch: "win64_msvc2022_64"
 
       - name: Configure
+        shell: cmd
         run: |
           cmake -B build ^
             -S . ^
@@ -34,4 +35,5 @@ jobs:
             -DCMAKE_PREFIX_PATH="%Qt6_DIR%\.."
 
       - name: Build
+        shell: cmd
         run: cmake --build build --config Release
