@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QObject>
-
+#include "Conversation.h"
 class ConversationManager : public QObject
 {
     Q_OBJECT
@@ -11,4 +11,23 @@ public:
     ~ConversationManager() override;
 
     bool Initialize();
+
+    void CreateConversation();
+
+    Conversation* GetConversation(size_t index);
+
+    size_t Count() const;
+
+    Conversation* CurrentConversation() const;
+
+    void SetCurrentConversation(Conversation* conversation);
+
+private:
+
+    Conversation* m_currentConversation = nullptr;
+    std::vector<std::unique_ptr<Conversation>> m_conversations;
+
+signals:
+        void ConversationCreated(Conversation* conversation);
+        void CurrentConversationChanged(Conversation* conversation);
 };

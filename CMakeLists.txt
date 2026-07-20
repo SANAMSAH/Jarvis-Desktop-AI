@@ -55,6 +55,14 @@ qt_add_executable(Jarvis
     src/core/AIManager.h
     src/data/ConversationManager.cpp
     src/data/ConversationManager.h
+
+    src/models/Conversation.cpp
+    src/models/Conversation.h
+    src/models/Message.cpp
+    src/models/Message.h
+
+    src/ui/widgets/chatwidgets/MessageBubble.cpp
+    src/ui/widgets/chatwidgets/MessageBubble.h
 )
 
 # -------------------------------
@@ -72,7 +80,9 @@ target_include_directories(Jarvis PRIVATE
     src/plugins
     src/integration
     src/ui/widgets/sidebar
+    src/ui/widgets/chatwidgets
     src/ui/pages/chat
+    src/models
 
 )
 

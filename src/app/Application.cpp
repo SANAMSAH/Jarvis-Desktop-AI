@@ -1,6 +1,8 @@
 #include "Application.h"
 
 #include "MainWindow.h"
+#include "AIManager.h"
+#include "ConversationManager.h"
 
 Application::Application(QObject* parent)
     : QObject(parent)
@@ -19,7 +21,9 @@ bool Application::Initialize()
     m_aiManager->Initialize();
 
 
-    m_mainWindow = new MainWindow();
+    m_conversationManager = new ConversationManager(this);
+
+    m_mainWindow = new MainWindow(m_aiManager,m_conversationManager);
     m_mainWindow->show();
 
     return true;

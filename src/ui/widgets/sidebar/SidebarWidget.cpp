@@ -5,11 +5,20 @@
 #include <QListWidget>
 #include <QPushButton>
 #include <QVBoxLayout>
+#include <Conversation.h>
 
 SidebarWidget::SidebarWidget(QWidget* parent)
     : QWidget(parent)
 {
     InitializeUI();
+
+	connect(m_newChatButton, &QPushButton::clicked, this, &SidebarWidget::newChatRequested);
+
+    connect(
+        m_chatList,
+        &QListWidget::currentRowChanged,
+        this,
+        &SidebarWidget::OnCurrentRowChanged);
 }
 
 SidebarWidget::~SidebarWidget() = default;
@@ -63,4 +72,15 @@ void SidebarWidget::InitializeUI()
 
    
     PopulateDummyChats();
+}
+void SidebarWidget::OnCurrentRowChanged(int row)
+{
+    if (row < 0)
+        return;
+
+    emit ConversationSelected(row);
+}
+void SidebarWidget::AddConversation(Conversation* conversation)
+{
+    m_chatList->addItem(conversation->Title());
 }

@@ -1,8 +1,10 @@
 
 #pragma once
 
-#include "AIManager.h"
+#include <QObject>
 
+class AIManager;
+class ConversationManager;
 class MainWindow;
 
 class Application : public QObject
@@ -19,4 +21,5 @@ private:
     MainWindow* m_mainWindow = nullptr;
 
     AIManager* m_aiManager = nullptr;
+    ConversationManager* m_conversationManager = nullptr;
 };

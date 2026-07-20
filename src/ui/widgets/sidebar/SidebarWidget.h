@@ -6,7 +6,7 @@ class QLabel;
 class QLineEdit;
 class QPushButton;
 class QListWidget;
-
+class Conversation;
 class SidebarWidget : public QWidget
 {
     Q_OBJECT
@@ -30,4 +30,11 @@ private:
     QPushButton* m_newChatButton = nullptr;
     QListWidget* m_chatList = nullptr;
     QPushButton* m_settingsButton = nullptr;
+
+signals:
+	void newChatRequested();
+    void ConversationSelected(int index);
+public slots:
+    void AddConversation(Conversation* conversation);
+    void OnCurrentRowChanged(int row);
 };
