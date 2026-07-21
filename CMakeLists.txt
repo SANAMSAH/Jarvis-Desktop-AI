@@ -28,6 +28,7 @@ set(CMAKE_AUTORCC ON)
 
 find_package(Qt6 REQUIRED COMPONENTS
     Widgets
+    Network
 )
 
 # -------------------------------
@@ -63,6 +64,10 @@ qt_add_executable(Jarvis
 
     src/ui/widgets/chatwidgets/MessageBubble.cpp
     src/ui/widgets/chatwidgets/MessageBubble.h
+
+    src/integration/ai/IAIProvider.h
+    src/integration/ai/OllamaProvider.h
+    src/integration/ai/OllamaProvider.cpp
 )
 
 # -------------------------------
@@ -83,6 +88,7 @@ target_include_directories(Jarvis PRIVATE
     src/ui/widgets/chatwidgets
     src/ui/pages/chat
     src/models
+    src/integration/ai
 
 )
 
@@ -93,7 +99,7 @@ target_include_directories(Jarvis PRIVATE
 target_link_libraries(Jarvis PRIVATE
 
     Qt6::Widgets
-
+    Qt6::Network
 )
 
 # -------------------------------

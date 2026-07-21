@@ -1,4 +1,4 @@
-#include "ConversationManager.h"
+﻿#include "ConversationManager.h"
 
 ConversationManager::ConversationManager(QObject* parent)
     : QObject(parent)
@@ -26,7 +26,7 @@ void ConversationManager::CreateConversation()
 
     message->SetRole(MessageRole::Assistant);
 
-    message->SetText("Hello! I'm Jarvis. How can I help you today?");
+    message->SetText("Hello! I'm Jarvis 👋. How can I help you today?");
 
     conversation->AddMessage(std::move(message));
 

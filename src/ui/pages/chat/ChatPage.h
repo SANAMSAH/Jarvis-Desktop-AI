@@ -1,12 +1,17 @@
 #pragma once
 
 #include <QWidget>
+//#include "Message.h"
+#include "MessageBubble.h"
+#include <QEvent>
+
 class Conversation;
 class QScrollArea;
 class QVBoxLayout;
 class QTextEdit;
 class QPushButton;
 class QLabel;
+class Message;
 
 class ChatPage : public QWidget
 {
@@ -18,10 +23,18 @@ public:
 
 private:
     void InitializeUI();
+    void AddMessageBubble(Message* message);
+
+protected:
+    bool eventFilter(QObject* obj, QEvent* event) override;
 
 public slots:
 
     void LoadConversation(Conversation* conversation);
+    void OnSendClicked();
+
+signals:
+    void MessageSubmitted(const QString& text);
 
 private:
     QLabel* m_headerLabel;

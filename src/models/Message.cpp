@@ -29,3 +29,12 @@ QDateTime Message::Timestamp() const
 {
     return m_timestamp;
 }
+bool Message::IsUser() const
+{
+    return m_role == MessageRole::User;
+}
+
+bool Message::IsAssistant() const
+{
+    return m_role == MessageRole::Assistant;
+}

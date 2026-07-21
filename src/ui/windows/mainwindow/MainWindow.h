@@ -39,4 +39,5 @@ private:
 private slots:
 	void OnNewChatRequested();
     void OnConversationSelected(int index);
+    void OnMessageSubmitted(const QString& text);
 };

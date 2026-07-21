@@ -24,6 +24,10 @@ public:
 
     QDateTime Timestamp() const;
 
+
+    bool IsUser() const;
+
+    bool IsAssistant() const;
 private:
     QString m_text;
 	MessageRole m_role = MessageRole::User;

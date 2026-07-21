@@ -1,6 +1,6 @@
 ﻿#include "ChatPage.h"
 #include "Conversation.h"
-
+#include <QKeyEvent>
 #include <QLabel>
 #include <QPushButton>
 #include <QScrollArea>
@@ -9,11 +9,16 @@
 #include <QHBoxLayout>
 #include <QFrame>
 #include <QFont>
-
+#include "MessageBubble.h"
+#include <QScrollBar>
 ChatPage::ChatPage(QWidget* parent)
     : QWidget(parent)
 {
     InitializeUI();
+
+    connect(m_sendButton,&QPushButton::clicked, this,&ChatPage::OnSendClicked);
+
+    m_inputEdit->installEventFilter(this);
 }
 
 ChatPage::~ChatPage() = default;
@@ -46,11 +51,8 @@ void ChatPage::InitializeUI()
         "color:white;"
     );
 
-    QFont font;
-    font.setPointSize(14);
-    font.setBold(true);
-
-    m_headerLabel->setFont(font);
+   
+    m_headerLabel->setFont(headerFont);
 
     mainLayout->addWidget(m_headerLabel);
 
@@ -87,7 +89,7 @@ void ChatPage::InitializeUI()
     m_messagesLayout->setSpacing(15);
 
     m_messagesLayout->setAlignment(Qt::AlignTop);
-    m_messagesLayout->setSpacing(12);
+
 
     m_scrollArea->setWidget(m_messagesWidget);
 
@@ -163,9 +165,64 @@ void ChatPage::LoadConversation(Conversation* conversation)
     if (!conversation)
         return;
 
-    qDebug() << "Conversation:"
-        << conversation->Title();
+    m_headerLabel->setText(conversation->Title());
 
-    qDebug() << "Messages:"
-        << conversation->MessageCount();
+    // Remove old chat bubbles
+    while (QLayoutItem* item = m_messagesLayout->takeAt(0))
+    {
+        delete item->widget();
+        delete item;
+    }
+
+    // Add all messages from the conversation
+    for (size_t i = 0; i < conversation->MessageCount(); ++i)
+    {
+        AddMessageBubble(conversation->GetMessage(i));
+
+    }
+    m_scrollArea->verticalScrollBar()->setValue(
+        m_scrollArea->verticalScrollBar()->maximum());
+}
+void ChatPage::AddMessageBubble(Message* message)
+{
+    auto* bubble = new MessageBubble(message);
+
+    m_messagesLayout->addWidget(bubble);
+}
+
+bool ChatPage::eventFilter(QObject* obj, QEvent* event)
+{
+    if (obj == m_inputEdit && event->type() == QEvent::KeyPress)
+    {
+        auto* keyEvent = static_cast<QKeyEvent*>(event);
+
+        if (keyEvent->key() == Qt::Key_Return ||
+            keyEvent->key() == Qt::Key_Enter)
+        {
+            // Shift + Enter -> Insert new line
+            if (keyEvent->modifiers() & Qt::ShiftModifier)
+            {
+                return QWidget::eventFilter(obj, event);
+            }
+
+            // Enter -> Send message
+            OnSendClicked();
+
+            return true;    // Consume the event
+        }
+    }
+
+    return QWidget::eventFilter(obj, event);
+}
+
+void ChatPage::OnSendClicked()
+{
+    QString text = m_inputEdit->toPlainText().trimmed();
+
+    if (text.isEmpty())
+        return;
+
+    emit MessageSubmitted(text);
+
+    m_inputEdit->clear();
 }

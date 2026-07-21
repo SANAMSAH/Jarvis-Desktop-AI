@@ -42,6 +42,12 @@ MainWindow::MainWindow(
         &SidebarWidget::ConversationSelected,
         this,
         &MainWindow::OnConversationSelected);
+
+    connect(
+        m_chatPage,
+        &ChatPage::MessageSubmitted,
+        this,
+        &MainWindow::OnMessageSubmitted);
 }
 
 MainWindow::~MainWindow()
@@ -71,6 +77,19 @@ void MainWindow::OnConversationSelected(int index)
         return;
 
     m_conversationManager->SetCurrentConversation(conversation);
+}
+void MainWindow::OnMessageSubmitted(const QString& text)
+{
+    Conversation* conversation =
+        m_conversationManager->CurrentConversation();
+
+    auto message = std::make_unique<Message>();
+
+    message->SetRole(MessageRole::User);
+    message->SetText(text);
+
+    conversation->AddMessage(std::move(message));
+    m_chatPage->LoadConversation(conversation);
 }
 void MainWindow::OnNewChatRequested()
 {
