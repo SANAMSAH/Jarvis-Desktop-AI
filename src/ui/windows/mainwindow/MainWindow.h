@@ -45,4 +45,6 @@ private slots:
     void OnAIError(const QString& error);
 
     void OnConversationUpdated(Conversation* conversation);
+
+    void OnResponseStarted();
 };

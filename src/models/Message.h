@@ -24,6 +24,10 @@ public:
 
     QDateTime Timestamp() const;
 
+    void SetThinking(bool isThinking);
+    bool IsThinking() const;
+
+    bool m_isThinking = false;
 
     bool IsUser() const;
 

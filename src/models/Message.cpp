@@ -29,6 +29,15 @@ QDateTime Message::Timestamp() const
 {
     return m_timestamp;
 }
+void Message::SetThinking(bool isThinking)
+{
+    m_isThinking = isThinking;
+
+}
+bool Message::IsThinking() const
+{
+    return m_isThinking;
+}
 bool Message::IsUser() const
 {
     return m_role == MessageRole::User;

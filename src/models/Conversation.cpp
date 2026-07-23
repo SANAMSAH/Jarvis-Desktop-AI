@@ -31,6 +31,13 @@ Message* Conversation::GetMessage(size_t index) const
 
     return m_messages[index].get();
 }
+Message* Conversation::LastMessage() const
+{
+    if (m_messages.empty())
+        return nullptr;
+
+    return m_messages.back().get();
+}
 size_t Conversation::MessageCount() const
 {
     return m_messages.size();

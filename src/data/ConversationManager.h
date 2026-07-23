@@ -30,6 +30,8 @@ public:
 
     void AddSystemMessage(const QString& text);
 
+    void AddThinkingMessage();
+    void CompleteThinkingMessage(const QString& response);
 private:
 
     Conversation* m_currentConversation = nullptr;

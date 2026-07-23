@@ -24,6 +24,8 @@ public:
 
     Message* GetMessage(size_t index) const;
 
+    Message* LastMessage() const;
+
     size_t MessageCount() const;
 private:
     QString m_id;

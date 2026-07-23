@@ -64,6 +64,11 @@ MainWindow::MainWindow(
         &ConversationManager::ConversationUpdated,
         this,
         &MainWindow::OnConversationUpdated);
+
+    connect(m_aiManager,
+        &AIManager::ResponseStarted,
+        this,
+		&MainWindow::OnResponseStarted);
 }
 
 MainWindow::~MainWindow()
@@ -99,6 +104,12 @@ void MainWindow::OnMessageSubmitted(const QString& text)
     Conversation* conversation =
         m_conversationManager->CurrentConversation();
 
+    if (!conversation)
+    {
+        m_conversationManager->CreateConversation();
+        conversation = m_conversationManager->CurrentConversation();
+    }
+
     auto message = std::make_unique<Message>();
 
     message->SetRole(MessageRole::User);
@@ -111,7 +122,8 @@ void MainWindow::OnMessageSubmitted(const QString& text)
 }
 void MainWindow::OnAIResponseCompleted(const QString& response)
 {
-    m_conversationManager->AddAssistantMessage(response);
+    //m_conversationManager->AddAssistantMessage(response);
+    m_conversationManager->CompleteThinkingMessage(response);
 }
 void MainWindow::OnAIError(const QString& error)
 {
@@ -125,6 +137,10 @@ void MainWindow::OnConversationUpdated(Conversation* conversation)
         return;
 
     m_chatPage->LoadConversation(conversation);
+}
+void MainWindow::OnResponseStarted()
+{
+    m_conversationManager->AddThinkingMessage();
 }
 void MainWindow::OnNewChatRequested()
 {

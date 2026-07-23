@@ -60,6 +60,8 @@ void OllamaProvider::SendPrompt(const QString& prompt)
         &QNetworkReply::finished,
         this,
         &OllamaProvider::OnReplyFinished);
+
+    emit ResponseStarted();
 }
 
 void OllamaProvider::CancelRequest()

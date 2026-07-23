@@ -217,6 +217,8 @@ bool ChatPage::eventFilter(QObject* obj, QEvent* event)
 
 void ChatPage::OnSendClicked()
 {
+
+
     QString text = m_inputEdit->toPlainText().trimmed();
 
     if (text.isEmpty())

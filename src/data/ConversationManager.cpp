@@ -105,3 +105,42 @@ void ConversationManager::AddSystemMessage(const QString& text)
 
     emit ConversationUpdated(m_currentConversation);
 }
+
+void ConversationManager::AddThinkingMessage()
+{
+
+    if (!m_currentConversation)
+        return;
+
+    auto message = std::make_unique<Message>();
+
+    message->SetRole(MessageRole::Assistant);
+    message->SetText("is thinking..."); 
+    message->SetThinking(true);
+
+    m_currentConversation->AddMessage(std::move(message));
+
+    emit ConversationUpdated(m_currentConversation);
+}
+
+void ConversationManager::CompleteThinkingMessage(const QString& response)
+{
+    if (!m_currentConversation)
+        return;
+
+    Message* message = m_currentConversation->LastMessage();
+
+    if (!message)
+        return;
+
+    if (!message->IsThinking())
+        return;
+
+    message->SetThinking(false);
+
+    message->SetText(response);
+
+    emit ConversationUpdated(m_currentConversation);
+}
+
+
