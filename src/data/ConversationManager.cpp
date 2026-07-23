@@ -60,3 +60,48 @@ void ConversationManager::SetCurrentConversation(Conversation* conversation)
     m_currentConversation = conversation;
     emit CurrentConversationChanged(conversation);
 }
+
+void ConversationManager::AddUserMessage(const QString& text)
+{
+    if (!m_currentConversation)
+        return;
+
+    auto message = std::make_unique<Message>();
+
+    message->SetRole(MessageRole::User);
+    message->SetText(text);
+
+    m_currentConversation->AddMessage(std::move(message));
+
+    emit ConversationUpdated(m_currentConversation);
+}
+
+void ConversationManager::AddAssistantMessage(const QString& text)
+{
+    if (!m_currentConversation)
+        return;
+
+    auto message = std::make_unique<Message>();
+
+    message->SetRole(MessageRole::Assistant);
+    message->SetText(text);
+
+    m_currentConversation->AddMessage(std::move(message));
+
+    emit ConversationUpdated(m_currentConversation);
+}
+
+void ConversationManager::AddSystemMessage(const QString& text)
+{
+    if (!m_currentConversation)
+        return;
+
+    auto message = std::make_unique<Message>();
+
+    message->SetRole(MessageRole::System);
+    message->SetText(text);
+
+    m_currentConversation->AddMessage(std::move(message));
+
+    emit ConversationUpdated(m_currentConversation);
+}

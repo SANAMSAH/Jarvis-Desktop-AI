@@ -28,4 +28,7 @@ private:
     QNetworkAccessManager* m_networkManager = nullptr;
 
     QNetworkReply* m_currentReply = nullptr;
+
+private slots:
+    void OnReplyFinished();
 };

@@ -29,7 +29,7 @@ signals:
 
     void ResponseChunkReceived(const QString& chunk);
 
-    void ResponseCompleted();
+    void ResponseCompleted(const QString& response);
 
     void ErrorOccurred(const QString& error);
 };

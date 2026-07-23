@@ -14,7 +14,7 @@ class SidebarWidget;
 class ChatPage;
 class AIManager;
 class ConversationManager;
-
+class Conversation;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -40,4 +40,9 @@ private slots:
 	void OnNewChatRequested();
     void OnConversationSelected(int index);
     void OnMessageSubmitted(const QString& text);
+
+    void OnAIResponseCompleted(const QString& response);
+    void OnAIError(const QString& error);
+
+    void OnConversationUpdated(Conversation* conversation);
 };

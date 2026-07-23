@@ -22,6 +22,14 @@ public:
 
     void SetCurrentConversation(Conversation* conversation);
 
+public:
+
+    void AddUserMessage(const QString& text);
+
+    void AddAssistantMessage(const QString& text);
+
+    void AddSystemMessage(const QString& text);
+
 private:
 
     Conversation* m_currentConversation = nullptr;
@@ -30,4 +38,5 @@ private:
 signals:
         void ConversationCreated(Conversation* conversation);
         void CurrentConversationChanged(Conversation* conversation);
+        void ConversationUpdated(Conversation* conversation);
 };

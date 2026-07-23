@@ -8,6 +8,7 @@
 #include <QHBoxLayout>
 #include "AIManager.h"
 #include "ConversationManager.h"
+#include <QMessageBox>
 
 
 MainWindow::MainWindow(
@@ -48,6 +49,21 @@ MainWindow::MainWindow(
         &ChatPage::MessageSubmitted,
         this,
         &MainWindow::OnMessageSubmitted);
+
+    connect(m_aiManager,
+        &AIManager::ResponseCompleted,
+        this,
+        &MainWindow::OnAIResponseCompleted);
+
+    connect(m_aiManager,
+        &AIManager::ErrorOccurred,
+        this,
+        &MainWindow::OnAIError);
+
+    connect(m_conversationManager,
+        &ConversationManager::ConversationUpdated,
+        this,
+        &MainWindow::OnConversationUpdated);
 }
 
 MainWindow::~MainWindow()
@@ -89,6 +105,25 @@ void MainWindow::OnMessageSubmitted(const QString& text)
     message->SetText(text);
 
     conversation->AddMessage(std::move(message));
+    m_chatPage->LoadConversation(conversation);
+
+    m_aiManager->SendPrompt(text);
+}
+void MainWindow::OnAIResponseCompleted(const QString& response)
+{
+    m_conversationManager->AddAssistantMessage(response);
+}
+void MainWindow::OnAIError(const QString& error)
+{
+    QMessageBox::warning(this,
+        "Jarvis",
+        error);
+}
+void MainWindow::OnConversationUpdated(Conversation* conversation)
+{
+    if (!conversation)
+        return;
+
     m_chatPage->LoadConversation(conversation);
 }
 void MainWindow::OnNewChatRequested()
